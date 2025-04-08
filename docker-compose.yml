@@ -19,8 +19,11 @@ services:
     image: mongo:latest
     ports:
       - "27018:27017"
+    environment:
+      - MONGODB_DATABASE=product_db
     volumes:
       - product-data:/data/db
+      - ./init-db:/docker-entrypoint-initdb.d  # MongoDB sẽ tự động chạy các scripts trong thư mục này khi khởi động
     networks:
       - product-network
 
