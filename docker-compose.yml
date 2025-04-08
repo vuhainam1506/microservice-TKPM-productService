@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  product-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - MONGO_URI=mongodb://product-db:27017/product_db
+    depends_on:
+      - product-db
+    networks:
+      - product-network
+
+  product-db:
+    image: mongo:latest
+    ports:
+      - "27018:27017"
+    volumes:
+      - product-data:/data/db
+    networks:
+      - product-network
+
+volumes:
+  product-data:
+
+networks:
+  product-network:
+    driver: bridge
